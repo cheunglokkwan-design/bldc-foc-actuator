@@ -1,0 +1,756 @@
+(kicad_sch (version 20231130) (generator "eeschema") (generator_version "8.0")
+
+  (paper "A2")
+
+  (title_block
+    (title "Actuator Controller - 3-Phase BLDC Drive")
+    (date "2024-01-15")
+    (rev "1.0")
+    (company "Engineering")
+    (comment 1 "STM32G474RET6 + DRV8305 + CSD18532Q5B")
+    (comment 2 "24V / High Current 3-Phase Inverter")
+  )
+
+  (lib_symbols
+    (symbol "STM32G474RET6"
+      (pin_names (offset 1.016))
+      (in_bom yes) (on_board yes)
+      (property "Reference" "U1" (at 0 0 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "STM32G474RET6" (at 0 -2 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "Package_QFP:LQFP-64_10x10mm_P0.5mm" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Datasheet" "https://www.st.com/resource/en/datasheet/stm32g474re.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (symbol "STM32G474RET6_0_1"
+        (rectangle (start -15.24 -38.1) (end 15.24 38.1)
+          (stroke (width 0.254) (type default)) (fill (type background)))
+        ; SPI1 pins
+        (pin bidirectional line (at -20.32 33.02 0) (length 5.08) (name "PA5/SPI1_SCK" (effects (font (size 1.016 1.016)))) (number "21" (effects (font (size 1.016 1.016)))))
+        (pin bidirectional line (at -20.32 30.48 0) (length 5.08) (name "PA6/SPI1_MISO" (effects (font (size 1.016 1.016)))) (number "22" (effects (font (size 1.016 1.016)))))
+        (pin bidirectional line (at -20.32 27.94 0) (length 5.08) (name "PA7/SPI1_MOSI" (effects (font (size 1.016 1.016)))) (number "23" (effects (font (size 1.016 1.016)))))
+        (pin bidirectional line (at -20.32 25.4 0) (length 5.08) (name "PA4/SPI1_NSS" (effects (font (size 1.016 1.016)))) (number "20" (effects (font (size 1.016 1.016)))))
+        ; TIM1 3-phase PWM
+        (pin output line (at 20.32 33.02 180) (length 5.08) (name "PA8/TIM1_CH1" (effects (font (size 1.016 1.016)))) (number "41" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 20.32 30.48 180) (length 5.08) (name "PA9/TIM1_CH2" (effects (font (size 1.016 1.016)))) (number "42" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 20.32 27.94 180) (length 5.08) (name "PA10/TIM1_CH3" (effects (font (size 1.016 1.016)))) (number "43" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 20.32 25.4 180) (length 5.08) (name "PB13/TIM1_CH1N" (effects (font (size 1.016 1.016)))) (number "34" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 20.32 22.86 180) (length 5.08) (name "PB14/TIM1_CH2N" (effects (font (size 1.016 1.016)))) (number "35" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 20.32 20.32 180) (length 5.08) (name "PB15/TIM1_CH3N" (effects (font (size 1.016 1.016)))) (number "36" (effects (font (size 1.016 1.016)))))
+        ; ADC phase current inputs
+        (pin input line (at -20.32 20.32 0) (length 5.08) (name "PC0/ADC1_IN6" (effects (font (size 1.016 1.016)))) (number "8" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -20.32 17.78 0) (length 5.08) (name "PC1/ADC1_IN7" (effects (font (size 1.016 1.016)))) (number "9" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -20.32 15.24 0) (length 5.08) (name "PC2/ADC1_IN8" (effects (font (size 1.016 1.016)))) (number "10" (effects (font (size 1.016 1.016)))))
+        ; SWD debug
+        (pin bidirectional line (at -20.32 10.16 0) (length 5.08) (name "PA13/SWDIO" (effects (font (size 1.016 1.016)))) (number "46" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -20.32 7.62 0) (length 5.08) (name "PA14/SWCLK" (effects (font (size 1.016 1.016)))) (number "49" (effects (font (size 1.016 1.016)))))
+        ; Power
+        (pin power_in line (at -20.32 -35.56 0) (length 5.08) (name "VDD" (effects (font (size 1.016 1.016)))) (number "64" (effects (font (size 1.016 1.016)))))
+        (pin power_in line (at -20.32 -33.02 0) (length 5.08) (name "VDDA" (effects (font (size 1.016 1.016)))) (number "13" (effects (font (size 1.016 1.016)))))
+        (pin power_in line (at 20.32 -35.56 180) (length 5.08) (name "GND" (effects (font (size 1.016 1.016)))) (number "63" (effects (font (size 1.016 1.016)))))
+        (pin power_in line (at 20.32 -33.02 180) (length 5.08) (name "AGND" (effects (font (size 1.016 1.016)))) (number "12" (effects (font (size 1.016 1.016)))))
+        (pin input line (at 20.32 -30.48 180) (length 5.08) (name "NRST" (effects (font (size 1.016 1.016)))) (number "14" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -20.32 -30.48 0) (length 5.08) (name "BOOT0" (effects (font (size 1.016 1.016)))) (number "60" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "DRV8305"
+      (pin_names (offset 1.016))
+      (in_bom yes) (on_board yes)
+      (property "Reference" "U2" (at 0 0 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "DRV8305" (at 0 -2 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "Package_QFN:QFN-40_6x6mm_P0.5mm" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Datasheet" "https://www.ti.com/lit/ds/symlink/drv8305.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (symbol "DRV8305_0_1"
+        (rectangle (start -12.7 -25.4) (end 12.7 25.4)
+          (stroke (width 0.254) (type default)) (fill (type background)))
+        ; SPI interface
+        (pin input line (at -17.78 22.86 0) (length 5.08) (name "SCLK" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 20.32 0) (length 5.08) (name "SDI" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
+        (pin output line (at -17.78 17.78 0) (length 5.08) (name "SDO" (effects (font (size 1.016 1.016)))) (number "3" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 15.24 0) (length 5.08) (name "SCS" (effects (font (size 1.016 1.016)))) (number "4" (effects (font (size 1.016 1.016)))))
+        ; PWM inputs (high-side)
+        (pin input line (at -17.78 10.16 0) (length 5.08) (name "INHA" (effects (font (size 1.016 1.016)))) (number "5" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 7.62 0) (length 5.08) (name "INHB" (effects (font (size 1.016 1.016)))) (number "6" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 5.08 0) (length 5.08) (name "INHC" (effects (font (size 1.016 1.016)))) (number "7" (effects (font (size 1.016 1.016)))))
+        ; PWM inputs (low-side)
+        (pin input line (at -17.78 2.54 0) (length 5.08) (name "INLA" (effects (font (size 1.016 1.016)))) (number "8" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 0 0) (length 5.08) (name "INLB" (effects (font (size 1.016 1.016)))) (number "9" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 -2.54 0) (length 5.08) (name "INLC" (effects (font (size 1.016 1.016)))) (number "10" (effects (font (size 1.016 1.016)))))
+        ; Gate drive outputs (high-side)
+        (pin output line (at 17.78 22.86 180) (length 5.08) (name "GHSL_A" (effects (font (size 1.016 1.016)))) (number "11" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 17.78 20.32 180) (length 5.08) (name "GHSL_B" (effects (font (size 1.016 1.016)))) (number "12" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 17.78 17.78 180) (length 5.08) (name "GHSL_C" (effects (font (size 1.016 1.016)))) (number "13" (effects (font (size 1.016 1.016)))))
+        ; Gate drive outputs (low-side)
+        (pin output line (at 17.78 12.7 180) (length 5.08) (name "GLSL_A" (effects (font (size 1.016 1.016)))) (number "14" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 17.78 10.16 180) (length 5.08) (name "GLSL_B" (effects (font (size 1.016 1.016)))) (number "15" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 17.78 7.62 180) (length 5.08) (name "GLSL_C" (effects (font (size 1.016 1.016)))) (number "16" (effects (font (size 1.016 1.016)))))
+        ; Current sense amplifier outputs
+        (pin output line (at 17.78 2.54 180) (length 5.08) (name "SOP1" (effects (font (size 1.016 1.016)))) (number "17" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 17.78 0 180) (length 5.08) (name "SOP2" (effects (font (size 1.016 1.016)))) (number "18" (effects (font (size 1.016 1.016)))))
+        (pin output line (at 17.78 -2.54 180) (length 5.08) (name "SOP3" (effects (font (size 1.016 1.016)))) (number "19" (effects (font (size 1.016 1.016)))))
+        ; Current sense inputs
+        (pin input line (at 17.78 -7.62 180) (length 5.08) (name "SEN1P" (effects (font (size 1.016 1.016)))) (number "20" (effects (font (size 1.016 1.016)))))
+        (pin input line (at 17.78 -10.16 180) (length 5.08) (name "SEN1N" (effects (font (size 1.016 1.016)))) (number "21" (effects (font (size 1.016 1.016)))))
+        (pin input line (at 17.78 -12.7 180) (length 5.08) (name "SEN2P" (effects (font (size 1.016 1.016)))) (number "22" (effects (font (size 1.016 1.016)))))
+        (pin input line (at 17.78 -15.24 180) (length 5.08) (name "SEN2N" (effects (font (size 1.016 1.016)))) (number "23" (effects (font (size 1.016 1.016)))))
+        (pin input line (at 17.78 -17.78 180) (length 5.08) (name "SEN3P" (effects (font (size 1.016 1.016)))) (number "24" (effects (font (size 1.016 1.016)))))
+        (pin input line (at 17.78 -20.32 180) (length 5.08) (name "SEN3N" (effects (font (size 1.016 1.016)))) (number "25" (effects (font (size 1.016 1.016)))))
+        ; Power / misc
+        (pin power_in line (at -17.78 -15.24 0) (length 5.08) (name "PVDD" (effects (font (size 1.016 1.016)))) (number "26" (effects (font (size 1.016 1.016)))))
+        (pin power_in line (at -17.78 -17.78 0) (length 5.08) (name "VDD" (effects (font (size 1.016 1.016)))) (number "27" (effects (font (size 1.016 1.016)))))
+        (pin power_in line (at -17.78 -20.32 0) (length 5.08) (name "GND" (effects (font (size 1.016 1.016)))) (number "28" (effects (font (size 1.016 1.016)))))
+        (pin output line (at -17.78 -22.86 0) (length 5.08) (name "nFAULT" (effects (font (size 1.016 1.016)))) (number "29" (effects (font (size 1.016 1.016)))))
+        (pin input line (at -17.78 -25.4 0) (length 5.08) (name "EN_GATE" (effects (font (size 1.016 1.016)))) (number "30" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "CSD18532Q5B"
+      (pin_names (offset 0.508))
+      (in_bom yes) (on_board yes)
+      (property "Reference" "Q1" (at 0 0 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "CSD18532Q5B" (at 0 -2 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Datasheet" "https://www.ti.com/lit/ds/symlink/csd18532q5b.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (symbol "CSD18532Q5B_0_1"
+        ; NMOS symbol body
+        (polyline (pts (xy 0 -2.54) (xy 0 2.54)) (stroke (width 0.254) (type default)) (fill (type none)))
+        (polyline (pts (xy 0.508 -2.032) (xy 0.508 -0.508)) (stroke (width 0.508) (type default)) (fill (type none)))
+        (polyline (pts (xy 0.508 0.508) (xy 0.508 2.032)) (stroke (width 0.508) (type default)) (fill (type none)))
+        (polyline (pts (xy 0.508 0) (xy 2.032 0) (xy 2.032 -1.524) (xy 3.81 -1.524)) (stroke (width 0.254) (type default)) (fill (type none)))
+        (polyline (pts (xy 2.032 0) (xy 2.032 1.524) (xy 3.81 1.524)) (stroke (width 0.254) (type default)) (fill (type none)))
+        (polyline (pts (xy 2.032 1.524) (xy 2.032 -1.524)) (stroke (width 0.254) (type default)) (fill (type none)))
+        (polyline (pts (xy -2.54 0) (xy 0 0)) (stroke (width 0.254) (type default)) (fill (type none)))
+        ; Arrow for N-channel
+        (polyline (pts (xy 1.778 0) (xy 0.508 0)) (stroke (width 0.254) (type default)) (fill (type none)))
+        (pin input line (at -5.08 0 0) (length 2.54) (name "G" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 2.54 270) (length 2.54) (name "D" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 -2.54 90) (length 2.54) (name "S" (effects (font (size 1.016 1.016)))) (number "3" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "R"
+      (pin_names (offset 0))
+      (in_bom yes) (on_board yes)
+      (property "Reference" "R" (at 0 0 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "R" (at 0 -2 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (symbol "R_0_1"
+        (rectangle (start -1.016 -2.032) (end 1.016 2.032) (stroke (width 0.254) (type default)) (fill (type none)))
+        (pin passive line (at 0 3.81 270) (length 1.778) (name "~" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 0 -3.81 90) (length 1.778) (name "~" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "C"
+      (pin_names (offset 0))
+      (in_bom yes) (on_board yes)
+      (property "Reference" "C" (at 0 0 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "C" (at 0 -2 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (symbol "C_0_1"
+        (polyline (pts (xy -2.032 -0.508) (xy 2.032 -0.508)) (stroke (width 0.508) (type default)) (fill (type none)))
+        (polyline (pts (xy -2.032 0.508) (xy 2.032 0.508)) (stroke (width 0.508) (type default)) (fill (type none)))
+        (pin passive line (at 0 2.54 270) (length 2.032) (name "~" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 0 -2.54 90) (length 2.032) (name "~" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "PWR_FLAG"
+      (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Value" "PWR_FLAG" (at 0 3.81 0) (effects (font (size 1.27 1.27))))
+      (symbol "PWR_FLAG_0_1"
+        (pin power_in line (at 0 0 90) (length 0) (name "PWR" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "+24V"
+      (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Value" "+24V" (at 0 3.556 0) (effects (font (size 1.27 1.27))))
+      (symbol "+24V_0_1"
+        (polyline (pts (xy -0.762 0.762) (xy 0 2.032) (xy 0.762 0.762)) (stroke (width 0) (type default)) (fill (type none)))
+        (polyline (pts (xy 0 0) (xy 0 2.032)) (stroke (width 0) (type default)) (fill (type none)))
+        (pin power_in line (at 0 0 90) (length 0) (name "+24V" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "+5V"
+      (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Value" "+5V" (at 0 3.556 0) (effects (font (size 1.27 1.27))))
+      (symbol "+5V_0_1"
+        (polyline (pts (xy -0.762 0.762) (xy 0 2.032) (xy 0.762 0.762)) (stroke (width 0) (type default)) (fill (type none)))
+        (polyline (pts (xy 0 0) (xy 0 2.032)) (stroke (width 0) (type default)) (fill (type none)))
+        (pin power_in line (at 0 0 90) (length 0) (name "+5V" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "+3.3V"
+      (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Value" "+3.3V" (at 0 3.556 0) (effects (font (size 1.27 1.27))))
+      (symbol "+3.3V_0_1"
+        (polyline (pts (xy -0.762 0.762) (xy 0 2.032) (xy 0.762 0.762)) (stroke (width 0) (type default)) (fill (type none)))
+        (polyline (pts (xy 0 0) (xy 0 2.032)) (stroke (width 0) (type default)) (fill (type none)))
+        (pin power_in line (at 0 0 90) (length 0) (name "+3.3V" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "GND"
+      (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (property "Value" "GND" (at 0 -2.54 0) (effects (font (size 1.27 1.27))))
+      (symbol "GND_0_1"
+        (polyline (pts (xy 0 0) (xy 0 -1.016)) (stroke (width 0) (type default)) (fill (type none)))
+        (polyline (pts (xy -1.524 -1.016) (xy 1.524 -1.016)) (stroke (width 0) (type default)) (fill (type none)))
+        (polyline (pts (xy -0.762 -1.651) (xy 0.762 -1.651)) (stroke (width 0) (type default)) (fill (type none)))
+        (polyline (pts (xy -0.254 -2.286) (xy 0.254 -2.286)) (stroke (width 0) (type default)) (fill (type none)))
+        (pin power_in line (at 0 0 90) (length 0) (name "GND" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+      )
+    )
+
+    (symbol "Conn_02x05"
+      (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
+      (property "Reference" "J" (at 0 0 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "Conn_02x05" (at 0 -2 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+      (symbol "Conn_02x05_0_1"
+        (rectangle (start -1.27 -6.35) (end 3.81 6.35) (stroke (width 0.254) (type default)) (fill (type background)))
+        (pin passive line (at -3.81 5.08 0) (length 2.54) (name "Pin_1" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 5.08 180) (length 2.54) (name "Pin_2" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at -3.81 2.54 0) (length 2.54) (name "Pin_3" (effects (font (size 1.016 1.016)))) (number "3" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 2.54 180) (length 2.54) (name "Pin_4" (effects (font (size 1.016 1.016)))) (number "4" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at -3.81 0 0) (length 2.54) (name "Pin_5" (effects (font (size 1.016 1.016)))) (number "5" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 0 180) (length 2.54) (name "Pin_6" (effects (font (size 1.016 1.016)))) (number "6" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at -3.81 -2.54 0) (length 2.54) (name "Pin_7" (effects (font (size 1.016 1.016)))) (number "7" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 -2.54 180) (length 2.54) (name "Pin_8" (effects (font (size 1.016 1.016)))) (number "8" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at -3.81 -5.08 0) (length 2.54) (name "Pin_9" (effects (font (size 1.016 1.016)))) (number "9" (effects (font (size 1.016 1.016)))))
+        (pin passive line (at 6.35 -5.08 180) (length 2.54) (name "Pin_10" (effects (font (size 1.016 1.016)))) (number "10" (effects (font (size 1.016 1.016)))))
+      )
+    )
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; POWER SYMBOLS
+  ; ─────────────────────────────────────────────────────────────────────────────
+
+  (symbol (lib_id "+24V") (at 60.96 10.16 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR01" (at 60.96 13.97 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "+24V" (at 60.96 13.97 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "+24V") (at 130.81 10.16 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR02" (at 130.81 13.97 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "+24V" (at 130.81 13.97 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "+5V") (at 25.4 10.16 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR03" (at 25.4 13.97 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "+5V" (at 25.4 13.97 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "+3.3V") (at 15.24 10.16 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR04" (at 15.24 13.97 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "+3.3V" (at 15.24 13.97 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "GND") (at 15.24 90.17 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR05" (at 15.24 90.17 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "GND" (at 15.24 90.17 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "GND") (at 60.96 90.17 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR06" (at 60.96 90.17 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "GND" (at 60.96 90.17 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "GND") (at 130.81 90.17 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR07" (at 130.81 90.17 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "GND" (at 130.81 90.17 0) (effects (font (size 1.27 1.27))))
+  )
+  (symbol (lib_id "GND") (at 190.5 90.17 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "#PWR08" (at 190.5 90.17 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Value" "GND" (at 190.5 90.17 0) (effects (font (size 1.27 1.27))))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; U1 – STM32G474RET6  (placed at 15.24, 50.8)
+  ; ─────────────────────────────────────────────────────────────────────────────
+  (symbol (lib_id "STM32G474RET6") (at 15.24 50.8 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "U1" (at 15.24 12.7 0) (effects (font (size 1.524 1.524))))
+    (property "Value" "STM32G474RET6" (at 15.24 15.24 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Package_QFP:LQFP-64_10x10mm_P0.5mm" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "https://www.st.com/resource/en/datasheet/stm32g474re.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; U2 – DRV8305  (placed at 60.96, 50.8)
+  ; ─────────────────────────────────────────────────────────────────────────────
+  (symbol (lib_id "DRV8305") (at 60.96 50.8 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "U2" (at 60.96 25.4 0) (effects (font (size 1.524 1.524))))
+    (property "Value" "DRV8305" (at 60.96 27.94 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Package_QFN:QFN-40_6x6mm_P0.5mm" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "https://www.ti.com/lit/ds/symlink/drv8305.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; Q1-Q6 – CSD18532Q5B N-channel MOSFETs (3 half-bridges)
+  ; Half-bridge A: Q1 (high-side) at 110.49, 40.64   Q2 (low-side) at 110.49, 60.96
+  ; Half-bridge B: Q3 (high-side) at 127.00, 40.64   Q4 (low-side) at 127.00, 60.96
+  ; Half-bridge C: Q5 (high-side) at 143.51, 40.64   Q6 (low-side) at 143.51, 60.96
+  ; ─────────────────────────────────────────────────────────────────────────────
+
+  ; --- Half-bridge A ---
+  (symbol (lib_id "CSD18532Q5B") (at 110.49 40.64 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "Q1" (at 112.52 38.1 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "CSD18532Q5B" (at 112.52 40.64 0) (effects (font (size 1.016 1.016))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "CSD18532Q5B") (at 110.49 60.96 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "Q2" (at 112.52 58.42 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "CSD18532Q5B" (at 112.52 60.96 0) (effects (font (size 1.016 1.016))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; --- Half-bridge B ---
+  (symbol (lib_id "CSD18532Q5B") (at 127.00 40.64 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "Q3" (at 129.03 38.1 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "CSD18532Q5B" (at 129.03 40.64 0) (effects (font (size 1.016 1.016))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "CSD18532Q5B") (at 127.00 60.96 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "Q4" (at 129.03 58.42 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "CSD18532Q5B" (at 129.03 60.96 0) (effects (font (size 1.016 1.016))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; --- Half-bridge C ---
+  (symbol (lib_id "CSD18532Q5B") (at 143.51 40.64 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "Q5" (at 145.54 38.1 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "CSD18532Q5B" (at 145.54 40.64 0) (effects (font (size 1.016 1.016))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "CSD18532Q5B") (at 143.51 60.96 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "Q6" (at 145.54 58.42 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "CSD18532Q5B" (at 145.54 60.96 0) (effects (font (size 1.016 1.016))))
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; CURRENT SENSE SHUNTS  R_SHUNT1/2/3  (1 mΩ, 2512)
+  ; ─────────────────────────────────────────────────────────────────────────────
+  (symbol (lib_id "R") (at 110.49 75.0 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_S1" (at 110.49 72.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "1m" (at 110.49 77.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_2512_6332Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 127.00 75.0 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_S2" (at 127.00 72.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "1m" (at 127.00 77.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_2512_6332Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 143.51 75.0 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_S3" (at 143.51 72.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "1m" (at 143.51 77.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_2512_6332Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; FILTER RC networks on sense lines (100 Ω + 100 nF each channel)
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; Channel 1
+  (symbol (lib_id "R") (at 110.49 82.55 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_F1" (at 110.49 80.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100" (at 110.49 84.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "C") (at 115.57 85.09 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C_F1" (at 117.6 83.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100n" (at 117.6 85.09 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  ; Channel 2
+  (symbol (lib_id "R") (at 127.00 82.55 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_F2" (at 127.00 80.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100" (at 127.00 84.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "C") (at 132.08 85.09 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C_F2" (at 134.11 83.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100n" (at 134.11 85.09 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  ; Channel 3
+  (symbol (lib_id "R") (at 143.51 82.55 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_F3" (at 143.51 80.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100" (at 143.51 84.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "C") (at 148.59 85.09 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C_F3" (at 150.62 83.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100n" (at 150.62 85.09 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; DECOUPLING CAPACITORS
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; STM32 VDD bypass
+  (symbol (lib_id "C") (at 8.89 18.0 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C1" (at 11.0 16.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100n" (at 11.0 18.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "C") (at 8.89 22.86 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C2" (at 11.0 20.86 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "4.7u" (at 11.0 22.86 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  ; DRV8305 PVDD bypass
+  (symbol (lib_id "C") (at 54.61 18.0 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C3" (at 56.64 16.0 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100n" (at 56.64 18.0 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "C") (at 54.61 22.86 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "C4" (at 56.64 20.86 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10u" (at 56.64 22.86 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; GATE DRIVE RESISTORS (10 Ω each, one per gate)
+  ; ─────────────────────────────────────────────────────────────────────────────
+  (symbol (lib_id "R") (at 101.6 40.64 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_GHA" (at 101.6 38.1 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10" (at 101.6 40.64 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 101.6 60.96 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_GLA" (at 101.6 58.42 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10" (at 101.6 60.96 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 118.11 40.64 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_GHB" (at 118.11 38.1 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10" (at 118.11 40.64 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 118.11 60.96 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_GLB" (at 118.11 58.42 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10" (at 118.11 60.96 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 134.62 40.64 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_GHC" (at 134.62 38.1 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10" (at 134.62 40.64 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol (lib_id "R") (at 134.62 60.96 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "R_GLC" (at 134.62 58.42 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "10" (at 134.62 60.96 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; J1 – SWD DEBUG HEADER
+  ; ─────────────────────────────────────────────────────────────────────────────
+  (symbol (lib_id "Conn_02x05") (at 190.5 50.8 0) (unit 1)
+    (in_bom yes) (on_board yes)
+    (property "Reference" "J1" (at 190.5 40.64 0) (effects (font (size 1.524 1.524))))
+    (property "Value" "SWD_DEBUG" (at 190.5 43.18 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; WIRES
+  ; ─────────────────────────────────────────────────────────────────────────────
+
+  ; STM32 VDD → +3.3V
+  (wire (pts (xy -5.08 15.24) (xy 8.89 15.24)))
+
+  ; STM32 GND
+  (wire (pts (xy 35.56 86.36) (xy 35.56 90.17)))
+
+  ; SPI1 lines  U1 → U2
+  ; SCK
+  (wire (pts (xy 35.56 83.82) (xy 43.18 83.82)))
+  ; MISO
+  (wire (pts (xy 35.56 81.28) (xy 43.18 81.28)))
+  ; MOSI
+  (wire (pts (xy 35.56 78.74) (xy 43.18 78.74)))
+  ; NSS
+  (wire (pts (xy 35.56 76.2) (xy 43.18 76.2)))
+
+  ; TIM1 PWM lines U1 → U2
+  ; CH1 → INHA
+  (wire (pts (xy 35.56 83.82) (xy 43.18 83.82)))
+  ; (nets labelled via net labels below)
+
+  ; DRV8305 PVDD → +24V
+  (wire (pts (xy 43.18 35.56) (xy 43.18 30.48)))
+  (wire (pts (xy 43.18 30.48) (xy 60.96 30.48)))
+
+  ; DRV8305 GND
+  (wire (pts (xy 78.74 86.36) (xy 78.74 90.17)))
+
+  ; Gate drive A high: DRV8305 GHSL_A → R_GHA → Q1 Gate
+  (wire (pts (xy 78.74 73.66) (xy 96.52 73.66)))
+  (wire (pts (xy 105.41 73.66) (xy 110.49 73.66)))
+
+  ; Gate drive A low: DRV8305 GLSL_A → R_GLA → Q2 Gate
+  (wire (pts (xy 78.74 60.96) (xy 96.52 60.96)))
+  (wire (pts (xy 105.41 60.96) (xy 110.49 60.96)))
+
+  ; Gate drive B high: DRV8305 GHSL_B → R_GHB → Q3 Gate
+  (wire (pts (xy 78.74 71.12) (xy 113.03 71.12)))
+  (wire (pts (xy 121.92 71.12) (xy 127.00 71.12)))
+
+  ; Gate drive B low: DRV8305 GLSL_B → R_GLB → Q4 Gate
+  (wire (pts (xy 78.74 58.42) (xy 113.03 58.42)))
+  (wire (pts (xy 121.92 58.42) (xy 127.00 58.42)))
+
+  ; Gate drive C high: DRV8305 GHSL_C → R_GHC → Q5 Gate
+  (wire (pts (xy 78.74 68.58) (xy 129.54 68.58)))
+  (wire (pts (xy 138.43 68.58) (xy 143.51 68.58)))
+
+  ; Gate drive C low: DRV8305 GLSL_C → R_GLC → Q6 Gate
+  (wire (pts (xy 78.74 55.88) (xy 129.54 55.88)))
+  (wire (pts (xy 138.43 55.88) (xy 143.51 55.88)))
+
+  ; PHASE_A node (Q1-S / Q2-D mid-point)
+  (wire (pts (xy 110.49 48.26) (xy 110.49 53.34)))
+
+  ; PHASE_B node
+  (wire (pts (xy 127.00 48.26) (xy 127.00 53.34)))
+
+  ; PHASE_C node
+  (wire (pts (xy 143.51 48.26) (xy 143.51 53.34)))
+
+  ; Q1 Drain → +24V bus
+  (wire (pts (xy 110.49 35.56) (xy 110.49 30.48)))
+  (wire (pts (xy 110.49 30.48) (xy 130.81 30.48)))
+
+  ; Q3 Drain → +24V bus
+  (wire (pts (xy 127.00 35.56) (xy 127.00 30.48)))
+
+  ; Q5 Drain → +24V bus
+  (wire (pts (xy 143.51 35.56) (xy 143.51 30.48)))
+
+  ; Q2 Source → R_S1 pin1
+  (wire (pts (xy 110.49 66.04) (xy 110.49 71.12)))
+
+  ; Q4 Source → R_S2 pin1
+  (wire (pts (xy 127.00 66.04) (xy 127.00 71.12)))
+
+  ; Q6 Source → R_S3 pin1
+  (wire (pts (xy 143.51 66.04) (xy 143.51 71.12)))
+
+  ; R_S1 pin2 → GND
+  (wire (pts (xy 110.49 78.74) (xy 110.49 90.17)))
+
+  ; R_S2 pin2 → GND
+  (wire (pts (xy 127.00 78.74) (xy 127.00 90.17)))
+
+  ; R_S3 pin2 → GND
+  (wire (pts (xy 143.51 78.74) (xy 143.51 90.17)))
+
+  ; R_F1 in-line on SEN1P path (R_S1 top → R_F1 → DRV8305 SEN1P)
+  (wire (pts (xy 110.49 71.12) (xy 110.49 78.74)))
+
+  ; CS_OUT1 → STM32 ADC PC0
+  (wire (pts (xy 78.74 48.26) (xy 86.36 48.26)))
+
+  ; CS_OUT2 → STM32 ADC PC1
+  (wire (pts (xy 78.74 45.72) (xy 86.36 45.72)))
+
+  ; CS_OUT3 → STM32 ADC PC2
+  (wire (pts (xy 78.74 43.18) (xy 86.36 43.18)))
+
+  ; SWD connector wires
+  (wire (pts (xy 182.88 55.88) (xy 186.69 55.88)))
+  (wire (pts (xy 182.88 53.34) (xy 186.69 53.34)))
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; NET LABELS
+  ; ─────────────────────────────────────────────────────────────────────────────
+
+  ; Power rails on STM32
+  (net_label (at -5.08 15.24 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "+3.3V" (at 0 0 0))
+  )
+
+  ; SPI1 to DRV8305
+  (net_label (at 43.18 83.82 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "SPI1_SCK" (at 0 0 0))
+  )
+  (net_label (at 43.18 81.28 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "SPI1_MISO" (at 0 0 0))
+  )
+  (net_label (at 43.18 78.74 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "SPI1_MOSI" (at 0 0 0))
+  )
+  (net_label (at 43.18 76.2 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "SPI1_NSS_DRV" (at 0 0 0))
+  )
+
+  ; TIM1 PWM outputs
+  (net_label (at 43.18 73.66 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PWM_HA" (at 0 0 0))
+  )
+  (net_label (at 43.18 71.12 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PWM_HB" (at 0 0 0))
+  )
+  (net_label (at 43.18 68.58 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PWM_HC" (at 0 0 0))
+  )
+  (net_label (at 43.18 66.04 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PWM_LA" (at 0 0 0))
+  )
+  (net_label (at 43.18 63.50 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PWM_LB" (at 0 0 0))
+  )
+  (net_label (at 43.18 60.96 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PWM_LC" (at 0 0 0))
+  )
+
+  ; Gate drive outputs
+  (net_label (at 96.52 73.66 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "GATE_HA" (at 0 0 0))
+  )
+  (net_label (at 96.52 60.96 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "GATE_LA" (at 0 0 0))
+  )
+  (net_label (at 113.03 71.12 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "GATE_HB" (at 0 0 0))
+  )
+  (net_label (at 113.03 58.42 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "GATE_LB" (at 0 0 0))
+  )
+  (net_label (at 129.54 68.58 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "GATE_HC" (at 0 0 0))
+  )
+  (net_label (at 129.54 55.88 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "GATE_LC" (at 0 0 0))
+  )
+
+  ; Phase output nodes
+  (net_label (at 110.49 50.8 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PHASE_A" (at 0 0 0))
+  )
+  (net_label (at 127.00 50.8 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PHASE_B" (at 0 0 0))
+  )
+  (net_label (at 143.51 50.8 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "PHASE_C" (at 0 0 0))
+  )
+
+  ; Current sense outputs
+  (net_label (at 86.36 48.26 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "CS_OUT1" (at 0 0 0))
+  )
+  (net_label (at 86.36 45.72 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "CS_OUT2" (at 0 0 0))
+  )
+  (net_label (at 86.36 43.18 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "CS_OUT3" (at 0 0 0))
+  )
+
+  ; SWD
+  (net_label (at 182.88 55.88 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "SWDIO" (at 0 0 0))
+  )
+  (net_label (at 182.88 53.34 0) (fields_autoplaced yes)
+    (effects (font (size 1.524 1.524)) (justify left))
+    (property "Name" "SWCLK" (at 0 0 0))
+  )
+
+  ; ─────────────────────────────────────────────────────────────────────────────
+  ; TEXT ANNOTATIONS
+  ; ─────────────────────────────────────────────────────────────────────────────
+  (text "3-Phase Inverter Bridge" (at 127.00 25.4 0)
+    (effects (font (size 2.032 2.032) (bold yes))))
+
+  (text "MCU Control & SPI" (at 15.24 8.89 0)
+    (effects (font (size 1.778 1.778) (bold yes))))
+
+  (text "Gate Driver" (at 60.96 25.4 0)
+    (effects (font (size 1.778 1.778) (bold yes))))
+
+  (text "Half-Bridge A" (at 110.49 33.02 0)
+    (effects (font (size 1.524 1.524))))
+
+  (text "Half-Bridge B" (at 127.00 33.02 0)
+    (effects (font (size 1.524 1.524))))
+
+  (text "Half-Bridge C" (at 143.51 33.02 0)
+    (effects (font (size 1.524 1.524))))
+
+  (text "Current Sense Shunts + RC Filters" (at 120.65 93.98 0)
+    (effects (font (size 1.524 1.524))))
+
+  (text "SWD Debug Connector" (at 190.5 43.18 0)
+    (effects (font (size 1.524 1.524))))
+
+  (text "R_S1: 1mΩ / 2W" (at 113.03 75.0 0)
+    (effects (font (size 1.016 1.016))))
+
+  (text "R_S2: 1mΩ / 2W" (at 129.54 75.0 0)
+    (effects (font (size 1.016 1.016))))
+
+  (text "R_S3: 1mΩ / 2W" (at 146.05 75.0 0)
+    (effects (font (size 1.016 1.016))))
+
+)
